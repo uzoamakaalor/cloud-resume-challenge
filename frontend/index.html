@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uzoamaka Ruth Alor — Cloud &amp; DevOps Engineer</title>
+  <meta name="description" content="Uzoamaka Ruth Alor — Cloud and DevOps Engineer specialising in AWS, Terraform, CI/CD and containerised infrastructure." />
+
+  <!-- Open Graph: how the link looks when shared on LinkedIn/Slack/etc. -->
+  <meta property="og:title" content="Uzoamaka Ruth Alor — Cloud &amp; DevOps Engineer" />
+  <meta property="og:description" content="AWS · Terraform · CI/CD · Docker · Kubernetes" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ruthalorresume.online" />
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+       One accent colour, a disciplined mono/sans pairing, generous
+       whitespace. Reads like infrastructure: precise and structured.
+       ============================================================ */
+    :root {
+      --bg:        #0f1115;   /* near-black, cool */
+      --surface:   #171a21;   /* raised panels */
+      --line:      #262b36;   /* hairline rules */
+      --text:      #e6e9ef;   /* primary text */
+      --muted:     #8b93a3;   /* secondary text */
+      --accent:    #4ade80;   /* single accent — terminal green, used sparingly */
+      --accent-dim:#1f3d2c;
+
+      --mono: "SFMono-Regular", "JetBrains Mono", "Fira Code", ui-monospace, Menlo, Consolas, monospace;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      --maxw: 820px;
+      --gap:  clamp(2.5rem, 6vw, 4rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .15s ease;
+    }
+    a:hover, a:focus-visible { border-bottom-color: var(--accent); }
+
+    /* Visible keyboard focus everywhere */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .wrap {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    header {
+      padding: clamp(3.5rem, 9vw, 6rem) 0 var(--gap);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: .8rem;
+      letter-spacing: .08em;
+      color: var(--accent);
+      margin: 0 0 1rem;
+    }
+    .eyebrow::before { content: "~/ "; color: var(--muted); }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.1rem);
+      line-height: 1.1;
+      margin: 0 0 .5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .role {
+      font-family: var(--mono);
+      color: var(--muted);
+      font-size: 1rem;
+      margin: 0 0 1.75rem;
+    }
+
+    .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem 1.25rem;
+      font-family: var(--mono);
+      font-size: .875rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .contact li { color: var(--muted); }
+    .contact a { color: var(--text); }
+    .contact a:hover { color: var(--accent); }
+
+    /* ============================================================
+       SECTIONS
+       ============================================================ */
+    section { padding: var(--gap) 0; border-bottom: 1px solid var(--line); }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    h2 { margin: 0; } /* reset; visual heading handled by .section-label */
+
+    /* Entry: a job, project, or degree */
+    .entry { margin-bottom: 2.5rem; }
+    .entry:last-child { margin-bottom: 0; }
+
+    .entry-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: .25rem 1rem;
+      margin-bottom: .25rem;
+    }
+    .entry-title { font-size: 1.1rem; font-weight: 600; margin: 0; }
+    .entry-meta {
+      font-family: var(--mono);
+      font-size: .8rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .entry-sub {
+      font-family: var(--mono);
+      font-size: .85rem;
+      color: var(--accent);
+      margin: 0 0 .75rem;
+    }
+    .entry ul { margin: .5rem 0 0; padding-left: 1.1rem; }
+    .entry li { margin-bottom: .4rem; }
+
+    .stack {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--muted);
+      margin-top: .6rem;
+    }
+    .stack::before { content: "stack: "; color: var(--accent); }
+
+    /* Skills grid */
+    .skills { display: grid; gap: 1.25rem; }
+    .skill-group { }
+    .skill-group h3 {
+      font-family: var(--mono);
+      font-size: .82rem;
+      color: var(--accent);
+      margin: 0 0 .4rem;
+      font-weight: 500;
+    }
+    .skill-group p { margin: 0; color: var(--text); }
+
+    /* ============================================================
+       FOOTER + VISITOR COUNTER
+       The counter is wired up in Step 10. Markup is here now so we
+       never touch structure later — only the JS gets added.
+       ============================================================ */
+    footer {
+      padding: var(--gap) 0 4rem;
+      font-family: var(--mono);
+      font-size: .82rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .counter { color: var(--muted); }
+    #visitor-count {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+
+    @media (max-width: 480px) {
+      .entry-head { flex-direction: column; }
+      .entry-meta { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+
+    <!-- ===================== HEADER ===================== -->
+    <header>
+      <p class="eyebrow">cloud &amp; devops engineer</p>
+      <h1>Uzoamaka Ruth Alor</h1>
+      <p class="role">AWS · Terraform · CI/CD · Docker · Kubernetes</p>
+      <ul class="contact">
+        <li><a href="mailto:ruthalor@gmail.com">ruthalor@gmail.com</a></li>
+        <li><a href="https://github.com/uzoamakaalor" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/uzoamakaalor" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://ruthalor.com/" target="_blank" rel="noopener">Portfolio</a></li>
+      </ul>
+    </header>
+
+    <!-- ===================== SUMMARY ===================== -->
+    <section aria-labelledby="about">
+      <p class="section-label"><span id="about">Summary</span></p>
+      <p>
+        Cloud and DevOps engineer with an MSc in Cybersecurity, focused on
+        building reproducible AWS infrastructure with Terraform and automating
+        delivery through CI/CD pipelines. Hands-on experience with containerised
+        workloads, Kubernetes orchestration, and a security-first approach drawn
+        from a background in threat modelling and vulnerability assessment.
+      </p>
+    </section>
+
+    <!-- ===================== EXPERIENCE ===================== -->
+    <section aria-labelledby="experience">
+      <p class="section-label"><span id="experience">Experience</span></p>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">DevOps Engineer</h3>
+          <span class="entry-meta">Jan 2025 – Dec 2025 · Remote</span>
+        </div>
+        <p class="entry-sub">Darey.io — Internship</p>
+        <ul>
+          <li>Designed and implemented 5 CI/CD pipelines with Jenkins and GitHub Actions, cutting deployment time by over 20%.</li>
+          <li>Provisioned reproducible AWS infrastructure as code using Terraform.</li>
+          <li>Deployed applications to Kubernetes clusters using Helm, Kustomize, and GitOps methodologies.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- ===================== PROJECTS ===================== -->
+    <section aria-labelledby="projects">
+      <p class="section-label"><span id="projects">Projects</span></p>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">End-to-End CI/CD Pipeline on AWS EC2</h3>
+          <span class="entry-meta"><a href="https://github.com/uzoamakaalor" target="_blank" rel="noopener">GitHub ↗</a></span>
+        </div>
+        <p class="entry-sub">Personal Project</p>
+        <ul>
+          <li>Built an end-to-end pipeline automating deployment of a containerised web app on EC2 with Jenkins, Docker, and Nginx.</li>
+          <li>Created a declarative Jenkins pipeline that pulls from GitHub, builds an image, deploys the container, and pushes to Docker Hub.</li>
+          <li>Configured GitHub Webhooks to trigger builds on every push — fully automated deployment from commit to production.</li>
+        </ul>
+        <p class="stack">AWS EC2, Jenkins, Docker, Docker Hub, Nginx, Shell, Ubuntu, Git</p>
+      </article>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">E-Commerce Platform Deployment with Git, Linux &amp; AWS</h3>
+          <span class="entry-meta"><a href="https://github.com/uzoamakaalor" target="_blank" rel="noopener">GitHub ↗</a></span>
+        </div>
+        <p class="entry-sub">Personal Project</p>
+        <ul>
+          <li>Deployed a functional e-commerce site on AWS, managing the full pipeline from version control to live production.</li>
+          <li>Provisioned an EC2 instance on Amazon Linux 2023, configured Apache HTTP Server, and set up security groups for SSH and HTTP.</li>
+          <li>Managed the project with Git and deployed to Apache's document root, publicly accessible via the instance's public IP.</li>
+        </ul>
+        <p class="stack">AWS EC2, Amazon Linux 2023, Apache, Git, Linux</p>
+      </article>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">AI-Based Phishing Detection</h3>
+          <span class="entry-meta">MSc Dissertation</span>
+        </div>
+        <p class="entry-sub">Northumbria University</p>
+        <ul>
+          <li>Qualitative secondary research evaluating AI/ML models for phishing email detection — 25% accuracy improvement, 30% fewer false positives.</li>
+          <li>Applied thematic analysis across academic literature to identify phishing attack vectors and AI-driven defence mechanisms.</li>
+          <li>Delivered findings in a formal dissertation and viva presentation.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- ===================== SKILLS ===================== -->
+    <section aria-labelledby="skills">
+      <p class="section-label"><span id="skills">Technical Skills</span></p>
+      <div class="skills">
+        <div class="skill-group">
+          <h3>Cloud &amp; DevOps</h3>
+          <p>AWS (EC2, S3, IAM, RDS, CloudFormation), Docker, Terraform, Jenkins, GitHub Actions, CI/CD Pipelines</p>
+        </div>
+        <div class="skill-group">
+          <h3>Infrastructure</h3>
+          <p>Linux Administration, Bash Scripting, Networking (TCP/IP, DNS, VPN), Monitoring &amp; Logging</p>
+        </div>
+        <div class="skill-group">
+          <h3>Security</h3>
+          <p>Vulnerability Assessment, Threat Modelling, SIEM, Incident Response, OWASP Top 10</p>
+        </div>
+        <div class="skill-group">
+          <h3>Languages</h3>
+          <p>Python, Bash, YAML, HCL (Terraform)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EDUCATION ===================== -->
+    <section aria-labelledby="education">
+      <p class="section-label"><span id="education">Education</span></p>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">MSc Cybersecurity</h3>
+          <span class="entry-meta">Jan 2025 – Jan 2026 · London, UK</span>
+        </div>
+        <p class="entry-sub">Northumbria University</p>
+        <ul>
+          <li>Dissertation: AI-Based Phishing Detection in the Banking Sector.</li>
+          <li>Coursework: Network Security, Digital Forensics, Ethical Hacking, Threat Intelligence.</li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <div class="entry-head">
+          <h3 class="entry-title">BSc Computer Science</h3>
+          <span class="entry-meta">Sep 2014 – Aug 2018 · Owerri, Nigeria</span>
+        </div>
+        <p class="entry-sub">Imo State University</p>
+        <ul>
+          <li>Coursework: Data Structures &amp; Algorithms, Operating Systems, Computer Networks, Software Engineering.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- ===================== FOOTER + COUNTER ===================== -->
+    <footer>
+      <span>© 2026 Uzoamaka Ruth Alor</span>
+      <span class="counter">visitors: <span id="visitor-count">—</span></span>
+    </footer>
+
+  </main>
+
+  <!--
+    VISITOR COUNTER — wired up in Step 10.
+    The fetch() call to the API Gateway endpoint gets added here later.
+    Leaving the placeholder "—" above until then.
+  -->
+  <script>
+    // Placeholder — replaced in Step 10 with the live API call.
+    // document.getElementById('visitor-count').textContent = count;
+  </script>
+</body>
+</html>
