@@ -371,14 +371,27 @@
 
   </main>
 
-  <!--
-    VISITOR COUNTER — wired up in Step 10.
-    The fetch() call to the API Gateway endpoint gets added here later.
-    Leaving the placeholder "—" above until then.
-  -->
+  <!-- Visitor counter: calls the API Gateway endpoint, updates the footer -->
   <script>
-    // Placeholder — replaced in Step 10 with the live API call.
-    // document.getElementById('visitor-count').textContent = count;
+    (function () {
+      const API_URL = "https://g38r2kwt12.execute-api.eu-west-2.amazonaws.com/count";
+      const el = document.getElementById("visitor-count");
+
+      fetch(API_URL)
+        .then(function (res) {
+          if (!res.ok) throw new Error("bad response");
+          return res.json();
+        })
+        .then(function (data) {
+          if (typeof data.count === "number") {
+            el.textContent = data.count.toLocaleString();
+          }
+        })
+        .catch(function () {
+          // Leave the placeholder dash if the call fails — page stays clean.
+          el.textContent = "—";
+        });
+    })();
   </script>
 </body>
 </html>
