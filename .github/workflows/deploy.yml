@@ -22,7 +22,7 @@ jobs:
   terraform:
     name: Terraform Plan & Apply
     runs-on: ubuntu-latest
-    environment: production   # <-- requires manual approval (set up in UI)
+    # environment: production   # TEMPORARILY DISABLED to isolate OIDC issueenvironment: production   # <-- requires manual approval (set up in UI)
     steps:
       - name: Checkout
         uses: actions/checkout@v4
