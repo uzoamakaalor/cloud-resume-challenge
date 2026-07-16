@@ -19,3 +19,33 @@ output "route53_zone_id" {
   value       = aws_route53_zone.main.zone_id
   description = "Hosted zone ID"
 }
+
+# ============================================================
+# Alias records — point apex + www at CloudFront.
+# ============================================================
+
+# Apex: ruthalorresume.online -> CloudFront
+resource "aws_route53_record" "apex" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = var.domain_name
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.site.domain_name
+    zone_id                = aws_cloudfront_distribution.site.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+# www.ruthalorresume.online -> CloudFront
+resource "aws_route53_record" "www" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = var.subdomain
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.site.domain_name
+    zone_id                = aws_cloudfront_distribution.site.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
