@@ -1,0 +1,75 @@
+name: Deploy Cloud Resume
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # allows manual runs from the GitHub UI
+
+# Required for OIDC: lets the workflow request the AWS token
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: eu-west-2
+  TF_WORKING_DIR: infra
+  AWS_ROLE_ARN: arn:aws:iam::584094646045:role/cloud-resume-github-actions
+  SITE_BUCKET: cloud-resume-site-ruthalorresume.online
+  CLOUDFRONT_ID: E1XBLRMYRTPURA
+
+jobs:
+  # ---------- JOB 1: Terraform (gated by approval) ----------
+  terraform:
+    name: Terraform Plan & Apply
+    runs-on: ubuntu-latest
+    environment: production   # <-- requires manual approval (set up in UI)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.15.6"
+
+      - name: Terraform Init
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform plan -no-color
+
+      - name: Terraform Apply
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform apply -auto-approve
+
+  # ---------- JOB 2: Frontend deploy (auto, after terraform) ----------
+  frontend:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+    needs: terraform   # runs after terraform job succeeds
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Sync frontend to S3
+        run: aws s3 sync frontend/ s3://${{ env.SITE_BUCKET }}/ --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.CLOUDFRONT_ID }} \
+            --paths "/*"
