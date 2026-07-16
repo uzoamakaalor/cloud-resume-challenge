@@ -21,3 +21,8 @@ lambda/*.zip
 .DS_Store
 .vscode/
 .idea/
+
+# Lambda invoke test outputs
+response.json
+r.json
+*.invoke.json
