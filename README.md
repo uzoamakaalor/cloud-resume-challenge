@@ -110,8 +110,4 @@ This is the first of three flagship portfolio projects:
 
 ---
 
-## About
 
-Built by **Uzoamaka Ruth Alor**, Cloud and DevOps Engineer.
-
-[Live site](https://ruthalorresume.online) · [LinkedIn](https://www.linkedin.com/in/uzoamakaalor) · [Portfolio](https://ruthalor.com/)
