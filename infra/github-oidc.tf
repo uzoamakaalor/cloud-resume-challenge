@@ -3,23 +3,18 @@
 # to AWS WITHOUT long-lived credentials.
 # ============================================================
 
-# Your GitHub repo, in owner/repo form
 variable "github_repo" {
   description = "GitHub repo in owner/name form"
   type        = string
   default     = "uzoamakaalor/cloud-resume-challenge"
 }
 
-# ---- Register GitHub as a trusted OIDC identity provider ----
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
-  # GitHub's OIDC thumbprint (AWS now validates via its trust store,
-  # but the field is still required)
   thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
 }
 
-# ---- The role GitHub Actions assumes ----
 resource "aws_iam_role" "github_actions" {
   name = "${var.project_name}-github-actions"
 
@@ -35,18 +30,21 @@ resource "aws_iam_role" "github_actions" {
         StringEquals = {
           "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
         }
-        # Lock to YOUR repo, any branch
+        # GitHub sends an ID-augmented sub: repo:owner@<id>/repo@<id>:...
+        # Wildcards tolerate the numeric IDs while staying repo-scoped.
         StringLike = {
-          "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:*"
+          "token.actions.githubusercontent.com:sub" = "repo:uzoamakaalor*/cloud-resume-challenge*:*"
         }
       }
     }]
   })
 }
 
-# ---- Permissions the pipeline needs ----
-# Broad-ish because Terraform manages many services. Scoped to this
-# project's resources where practical.
+resource "aws_iam_role_policy_attachment" "github_actions_logs" {
+  role       = aws_iam_role.github_actions.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
 resource "aws_iam_role_policy" "github_actions" {
   name = "${var.project_name}-github-actions-policy"
   role = aws_iam_role.github_actions.id
